@@ -13,16 +13,30 @@ namespace VismaMeeting.Service
             var id = Guid.NewGuid();
             Person newPerson = new(id, name, surname);
             PersonsList.Add(newPerson);
-            // string json = JsonSerializer.Serialize(newPerson);
-            // File.WriteAllText("personsJson.json", json);
-            // Console.WriteLine(File.ReadAllText("personsJson.json"));
         }
 
         public static Person CurrentPerson()
         {
-            Console.WriteLine("Enter the id of person you want to login as : ");
-            Guid id = Guid.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the id of person you want to login as (type 'continue' if you wish to " +
+                              "continue unauthorized) : ");
+            Guid id = Guid.NewGuid();
+            try
+            {
+                id = Guid.Parse(Console.ReadLine());
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("The string to be parsed is null.");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
             var person = PersonsList.FindById(id);
+            if (person is null)
+            {
+                Console.WriteLine("Person with this ID does not exist.");
+            }
             return person;
         }
     }

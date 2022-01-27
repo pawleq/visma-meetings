@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using VismaMeeting.Model;
 
 namespace VismaMeeting
@@ -22,12 +23,23 @@ namespace VismaMeeting
         {
             foreach (var meeting in Meetings)
             {
-                Console.WriteLine($"Meeting's {meeting.Name}, {meeting.ResponsiblePerson.Name} " +
-                                  $"{meeting.ResponsiblePerson.Surname}," +
+                Console.WriteLine($"Meeting's {meeting.MeetingId}, {meeting.Name}, " +
+                                  $" {meeting.ResponsiblePerson.PersonId}, " +
                                   $"{meeting.Description}," +
-                                  $"{meeting.MeetingCategory}, {meeting.MeetingType}, {meeting.StartDate}," +
-                                  $"{meeting.EndDate}, {meeting.Atendees}");
+                                  $"{meeting.MeetingCategory}, {meeting.MeetingType}, {meeting.StartDate}, " +
+                                  $"{meeting.EndDate}, {meeting.Atendees.Count}");
             }
+        }
+        
+        public static Meeting? FindById(Guid id)
+        {
+            var meeting = Meetings.FirstOrDefault(x => x.MeetingId == id);
+            return meeting;
+        }
+        
+        public static void Remove(Meeting meeting)
+        {
+            Meetings.Remove(meeting);
         }
     }
 }

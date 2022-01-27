@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Paulius\\Desktop\\Visma\\dd\\VismaMeeting\\VismaMeeting\\VismaMeeting.csproj",
+      "projectUniqueName": "C:\\Users\\Paulius\\Desktop\\visma-meetings\\VismaMeeting\\VismaMeeting.csproj",
       "projectName": "VismaMeeting",
-      "projectPath": "C:\\Users\\Paulius\\Desktop\\Visma\\dd\\VismaMeeting\\VismaMeeting\\VismaMeeting.csproj",
+      "projectPath": "C:\\Users\\Paulius\\Desktop\\visma-meetings\\VismaMeeting\\VismaMeeting.csproj",
       "packagesPath": "C:\\Users\\Paulius\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Paulius\\Desktop\\Visma\\dd\\VismaMeeting\\VismaMeeting\\obj\\",
+      "outputPath": "C:\\Users\\Paulius\\Desktop\\visma-meetings\\VismaMeeting\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Paulius\\AppData\\Roaming\\NuGet\\NuGet.Config"

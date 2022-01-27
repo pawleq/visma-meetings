@@ -14,16 +14,8 @@ namespace VismaMeeting
     {
         static void Main(string[] args)
         {
-            Options.Interface();
+            Interface.Options();
         }
-
-        // private static void CreateJson(string json)
-        // {
-        //     string PersonsJson = json;
-        //     using FileStream createStream = File.Create(PersonsJson);
-        // }
-
-        
     }
 }
 
