@@ -83,39 +83,81 @@ namespace VismaMeeting.Service
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("Try creating a meet or choose an appropriate meeting id.");
+                Console.WriteLine("Try creating a meeting or choose an appropriate meeting id.");
             }
             Console.WriteLine("Enter id of the person you wish to add : ");
-            Guid id = Guid.Parse(Console.ReadLine()); //idet exception del id
+            Guid id = Guid.Parse(Console.ReadLine());
             var person = PersonsList.FindById(id);
             try
             {
-                if (!atendees.Contains(person) && currentPerson != person) //sutvarkyt logika kad nepridedinetu random
+                if (atendees.Contains(person) || meeting.ResponsiblePerson == person || 
+                    currentPerson != meeting.ResponsiblePerson) //sutvarkyt logika kad nepridedinetu random
                 {
-                    atendees.Add(person);
+                    Console.WriteLine("Error adding person to the meeting.");
                 }
                 else
                 {
-                    Console.WriteLine("This person is already in the meeting. Try removing it before adding.");
-                }
-                if (person == currentPerson)
-                {
-                    Console.WriteLine("Meeting owner cannot add himself as a atendee.");
-                }
-                if (meeting.ResponsiblePerson.PersonId != currentPerson.PersonId)
-                {
-                    Console.WriteLine("Person does not have rights to add atendees to the event. Check ownership.");
+                    atendees.Add(person);
                 }
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine("No person found with this id.");
             }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("The string to be parsed is null.");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
         }
         
         public static void RemoveFromMetting(Person currentPerson)
         {
             var meeting = FindMeeting();
+            List<Person>? atendees = meeting.Atendees;
+            try
+            {
+                if (meeting is null)
+                {
+                    Console.WriteLine("There is no meeting with this id.");
+                }
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("Try creating a meeting or choose an appropriate meeting id.");
+            }
+            Console.WriteLine("Enter id of the person you wish to remove : ");
+            Guid id = Guid.Parse(Console.ReadLine());
+            var person = PersonsList.FindById(id);
+            try
+            {
+                if (!atendees.Contains(person) || meeting.ResponsiblePerson == person || 
+                    currentPerson != meeting.ResponsiblePerson) 
+                {
+                    Console.WriteLine("Error removing person from the meeting.");
+                }
+                else
+                {
+                    atendees.Remove(person);
+                }
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("No person found with this id.");
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("The string to be parsed is null.");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
         }
     }
 }
+// !atendees.Contains(person) & currentPerson != person && 
+//     meeting.ResponsiblePerson != currentPerson

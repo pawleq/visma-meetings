@@ -22,7 +22,8 @@ namespace VismaMeeting
         {
             foreach (var person in Persons)
             {
-                Console.WriteLine($"Person's id: {person.PersonId}, name : {person.Name}, surname : {person.Surname}");
+                Console.WriteLine($"Person's information : id {person.PersonId}," +
+                                  $"name : {person.Name}, surname : {person.Surname}");
             }
         }
 

@@ -23,11 +23,12 @@ namespace VismaMeeting
         {
             foreach (var meeting in Meetings)
             {
-                Console.WriteLine($"Meeting's {meeting.MeetingId}, {meeting.Name}, " +
-                                  $" {meeting.ResponsiblePerson.PersonId}, " +
-                                  $"{meeting.Description}," +
-                                  $"{meeting.MeetingCategory}, {meeting.MeetingType}, {meeting.StartDate}, " +
-                                  $"{meeting.EndDate}, {meeting.Atendees.Count}");
+                Console.WriteLine($"Meeting's information : ID : {meeting.MeetingId} , title : {meeting.Name}, " +
+                                  $"responsible person {meeting.ResponsiblePerson.PersonId}, " +
+                                  $"description {meeting.Description}," +
+                                  $"meeting category {meeting.MeetingCategory}, meeting type {meeting.MeetingType}," +
+                                  $"meeting start date {meeting.StartDate}, " +
+                                  $"meeting end date {meeting.EndDate}, meeting atendees count {meeting.Atendees.Count}");
             }
         }
         

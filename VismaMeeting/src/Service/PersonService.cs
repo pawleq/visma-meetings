@@ -17,8 +17,7 @@ namespace VismaMeeting.Service
 
         public static Person CurrentPerson()
         {
-            Console.WriteLine("Enter the id of person you want to login as (type 'continue' if you wish to " +
-                              "continue unauthorized) : ");
+            Console.WriteLine("Enter the id of person you want to login as : ");
             Guid id = Guid.NewGuid();
             try
             {
