@@ -22,10 +22,12 @@ namespace VismaMeeting
                               + "5 - Add a person to the meeting (only with responsible persons rights);\n"
                               + "6 - Remove a person from the meeting (only with responsible persons rights);\n"
                               + "7 - List meetings by responsible person;\n" 
-                              + "8 - List all meetings by category;"
-                              + "9 - List all meetings by type;"
-                              + "10 - List all meetings by description filter;"
-                              + "");
+                              + "8 - List all meetings by category;\n"
+                              + "9 - List all meetings by type;\n"
+                              + "10 - List all meetings by description filter;\n"
+                              + "11 - List all meetings by attendees count;\n"
+                              + "12 - List all meetings by date.\n"
+                              + "13 - Kill application.");
             
             var option = Convert.ToInt32(Console.ReadLine());
             switch (option)
@@ -97,6 +99,11 @@ namespace VismaMeeting
                     break;
                 case 11:
                     meetings = MeetingService.DisplayMeetingsByAttendeesCount();
+                    MeetingsList.Display(meetings);
+                    Options();
+                    break;
+                case 12:
+                    meetings = MeetingService.DisplayMeetingsByDate();
                     MeetingsList.Display(meetings);
                     Options();
                     break;

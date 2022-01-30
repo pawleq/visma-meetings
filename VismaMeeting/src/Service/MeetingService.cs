@@ -306,9 +306,37 @@ namespace VismaMeeting.Service
             {
                 Console.WriteLine("Bad format.");
             }
-            if (meetingsList.Count == 0 )
+            if (meetingsList.Count == 0)
             {
                 Console.WriteLine("No meetings with selected attendees count.");
+            }
+            return meetingsList;
+        }
+
+        public static List<Meeting> DisplayMeetingsByDate()
+        {
+            var meetingsList = new List<Meeting>();
+            try
+            {
+                Console.WriteLine("Enter start date : ");
+                var startDate = Convert.ToDateTime(Console.ReadLine());
+                Console.WriteLine("Enter end date : ");
+                var endDate = Convert.ToDateTime(Console.ReadLine());
+                var meetings = MeetingsList.Meetings.Select(x => x)
+                    .Where(x => x.StartDate >= startDate || x.EndDate >= endDate)
+                    .ToList();
+                foreach (var meeting in meetings)
+                {
+                    meetingsList.Add(meeting);
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
+            if (meetingsList.Count == 0 )
+            {
+                Console.WriteLine("No meetings happening at this interval.");
             }
             return meetingsList;
         }
