@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using VismaMeeting.Model;
 using VismaMeeting.Service;
 
@@ -18,54 +19,89 @@ namespace VismaMeeting
                               + "2 - Display all data;\n"
                               + "3 - Create a meeting;\n"
                               + "4 - Delete a meeting;\n"
-                              + "5 - Add a person to the meeting (only with responsible persons rights);"
-                              + "6 - Remove a person from the meeting (only with responsible persons rights);");
-
-            var option = Console.ReadLine();
+                              + "5 - Add a person to the meeting (only with responsible persons rights);\n"
+                              + "6 - Remove a person from the meeting (only with responsible persons rights);\n"
+                              + "7 - List meetings by responsible person;\n" 
+                              + "8 - List all meetings by category;"
+                              + "9 - List all meetings by type;"
+                              + "10 - List all meetings by description filter;"
+                              + "");
             
+            var option = Convert.ToInt32(Console.ReadLine());
             switch (option)
             {
-                case "1":
+                case 1:
                     PersonService.CreatePerson();
                     Options();
                     break;
-                case "2":
+                case 2:
                     PersonsList.Display();
-                    MeetingsList.Display();
+                    MeetingsList.Display(MeetingsList.Meetings);
                     Options();
                     break;
-                case "3":
+                case 3:
                     var currentPerson = Login();
                     if (currentPerson is not null)
                     {
                         MeetingService.CreateMeeting(currentPerson);
                     }
+
                     Options();
                     break;
-                case "4":
+                case 4:
                     currentPerson = Login();
                     if (currentPerson is not null)
                     {
                         MeetingService.RemoveMeeting(currentPerson);
                     }
+
                     Options();
                     break;
-                case "5":
+                case 5:
                     currentPerson = Login();
                     if (currentPerson is not null)
                     {
                         MeetingService.AddToMeeting(currentPerson);
                     }
+
                     Options();
                     break;
-                case "6":
+                case 6:
                     currentPerson = Login();
                     if (currentPerson is not null)
                     {
                         MeetingService.RemoveFromMetting(currentPerson);
                     }
+
                     Options();
                     break;
+                case 7:
+                    List<Meeting> meetings = MeetingService.DisplayMeetingsByResponsiblePerson();
+                    MeetingsList.Display(meetings);
+                    Options();
+                    break;
+                case 8:
+                    meetings = MeetingService.DisplayMeetingsByCategory();
+                    MeetingsList.Display(meetings);
+                    Options();
+                    break;
+                case 9:
+                    meetings = MeetingService.DisplayMeetingsByType();
+                    MeetingsList.Display(meetings);
+                    Options();
+                    break;
+                case 10:
+                    meetings = MeetingService.DisplayMeetingsByDescription();
+                    MeetingsList.Display(meetings);
+                    Options();
+                    break;
+                case 11:
+                    meetings = MeetingService.DisplayMeetingsByAttendeesCount();
+                    MeetingsList.Display(meetings);
+                    Options();
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
         }
     }

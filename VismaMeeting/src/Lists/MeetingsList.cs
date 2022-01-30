@@ -19,16 +19,19 @@ namespace VismaMeeting
             Meetings.Add(meeting);
         }
 
-        public static void Display()
+        public static void Display(List<Meeting>? meetings)
         {
-            foreach (var meeting in Meetings)
+            foreach (var meeting in meetings)
             {
-                Console.WriteLine($"Meeting's information : ID : {meeting.MeetingId} , title : {meeting.Name}, " +
-                                  $"responsible person {meeting.ResponsiblePerson.PersonId}, " +
-                                  $"description {meeting.Description}," +
-                                  $"meeting category {meeting.MeetingCategory}, meeting type {meeting.MeetingType}," +
-                                  $"meeting start date {meeting.StartDate}, " +
-                                  $"meeting end date {meeting.EndDate}, meeting atendees count {meeting.Atendees.Count}");
+                Console.WriteLine($"------------------------------\nMeeting's information :\n" +
+                                  $"id : {meeting.MeetingId}\ntitle : {meeting.Name}\n" +
+                                  $"responsible person : {meeting.ResponsiblePerson.PersonId}\n" +
+                                  $"description : {meeting.Description}\n" +
+                                  $"meeting category : {meeting.MeetingCategory}\n" +
+                                  $"meeting type : {meeting.MeetingType}\n" +
+                                  $"meeting start date : {meeting.StartDate}\n" +
+                                  $"meeting end date : {meeting.EndDate}\n" +
+                                  $"meeting atendees count : {meeting.Attendees.Count}\n");
             }
         }
         
@@ -42,5 +45,11 @@ namespace VismaMeeting
         {
             Meetings.Remove(meeting);
         }
+
+        // public static Meeting FindByOwnerId(Guid id)
+        // {
+        //     var meeting = Meetings.FirstOrDefault(x => x.ResponsiblePerson.PersonId == id);
+        //     return meeting;
+        // }
     }
 }

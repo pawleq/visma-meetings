@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using VismaMeeting.Enum;
 using VismaMeeting.Model;
 
@@ -73,7 +75,7 @@ namespace VismaMeeting.Service
         public static void AddToMeeting(Person currentPerson)
         {
             var meeting = FindMeeting();
-            List<Person>? atendees = meeting.Atendees;
+            List<Person>? attendees = meeting.Attendees;
             try
             {
                 if (meeting is null)
@@ -90,14 +92,14 @@ namespace VismaMeeting.Service
             var person = PersonsList.FindById(id);
             try
             {
-                if (atendees.Contains(person) || meeting.ResponsiblePerson == person || 
-                    currentPerson != meeting.ResponsiblePerson) //sutvarkyt logika kad nepridedinetu random
+                if (attendees.Contains(person) || meeting.ResponsiblePerson == person ||
+                     currentPerson != meeting.ResponsiblePerson)
                 {
                     Console.WriteLine("Error adding person to the meeting.");
                 }
                 else
                 {
-                    atendees.Add(person);
+                    attendees.Add(person);
                 }
             }
             catch (NullReferenceException)
@@ -117,7 +119,7 @@ namespace VismaMeeting.Service
         public static void RemoveFromMetting(Person currentPerson)
         {
             var meeting = FindMeeting();
-            List<Person>? atendees = meeting.Atendees;
+            List<Person>? attendees = meeting.Attendees;
             try
             {
                 if (meeting is null)
@@ -134,14 +136,14 @@ namespace VismaMeeting.Service
             var person = PersonsList.FindById(id);
             try
             {
-                if (!atendees.Contains(person) || meeting.ResponsiblePerson == person || 
+                if (!attendees.Contains(person) || meeting.ResponsiblePerson == person || 
                     currentPerson != meeting.ResponsiblePerson) 
                 {
                     Console.WriteLine("Error removing person from the meeting.");
                 }
                 else
                 {
-                    atendees.Remove(person);
+                    attendees.Remove(person);
                 }
             }
             catch (NullReferenceException)
@@ -157,7 +159,158 @@ namespace VismaMeeting.Service
                 Console.WriteLine("Bad format.");
             }
         }
+
+        public static List<Meeting> DisplayMeetingsByResponsiblePerson()
+        {
+            var meetingsList = new List<Meeting>();
+            Console.WriteLine("Enter responsible person's id : ");
+            Guid id = Guid.NewGuid();
+            try
+            {
+                id = Guid.Parse(Console.ReadLine());
+                var meetings = MeetingsList.Meetings.Select(x => x)
+                    .Where(x => x.ResponsiblePerson.PersonId == id).ToList();
+                foreach (var meeting in meetings)
+                {
+                    meetingsList.Add(meeting);
+                }
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("No person found with this id.");
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("The string to be parsed is null.");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
+            if (meetingsList.Count == 0 )
+            {
+                Console.WriteLine("This person has not arranged any meetings yet.");
+            }
+            return meetingsList;
+        }
+
+        public static List<Meeting> DisplayMeetingsByCategory()
+        {
+            var meetingsList = new List<Meeting>();
+            Console.WriteLine("Enter meeting's category (0 - codeMonkey, 1 -  hub, 2 - short, 3 - teamBuilding) : ");
+            try
+            {
+                var category = (MeetingCategory) Convert.ToInt32(Console.ReadLine());
+                var meetings = MeetingsList.Meetings.Select(x => x)
+                    .Where(x => x.MeetingCategory == category).ToList();
+                foreach (var meeting in meetings)
+                {
+                    meetingsList.Add(meeting);
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
+            if (meetingsList.Count == 0 )
+            {
+                Console.WriteLine("No meetings with this category.");
+            }
+            return meetingsList;
+        }
+
+        public static List<Meeting> DisplayMeetingsByType()
+        {
+            var meetingsList = new List<Meeting>();
+            Console.WriteLine("Enter meeting's type (0 - live, 1 - inPerson) : ");
+            try
+            {
+                var type = (MeetingType) Convert.ToInt32(Console.ReadLine());
+                var meetings = MeetingsList.Meetings.Select(x => x)
+                    .Where(x => x.MeetingType == type).ToList();
+                foreach (var meeting in meetings)
+                {
+                    meetingsList.Add(meeting);
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
+            if (meetingsList.Count == 0 )
+            {
+                Console.WriteLine("No meetings with this type.");
+            }
+            return meetingsList;
+        }
+
+        public static List<Meeting> DisplayMeetingsByDescription()
+        {
+            var meetingsList = new List<Meeting>();
+            Console.WriteLine("Enter description filter : ");
+            try
+            {
+                var filter = Console.ReadLine();
+                var meetings = MeetingsList.Meetings.Select(x => x)
+                    .Where(x => x.Description.ToLower().Contains(filter.ToLower()))
+                    .ToList();
+                foreach (var meeting in meetings)
+                {
+                    meetingsList.Add(meeting);
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
+            if (meetingsList.Count == 0 )
+            {
+                Console.WriteLine("No meetings with this description.");
+            }
+            return meetingsList;
+        }
+
+        public static List<Meeting> DisplayMeetingsByAttendeesCount()
+        {
+            var meetingsList = new List<Meeting>();
+            Console.WriteLine("Enter a number : ");
+            try
+            {
+                var count = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Would you like to get meetings which have more than "+count+" attendees or less?\n" +
+                                  "(0 - less , 1 - more) : ");
+                var option = Convert.ToInt32(Console.ReadLine());
+                switch (option)
+                {
+                    case 0:
+                        var meetings = MeetingsList.Meetings.Select(x => x)
+                            .Where(x => x.Attendees.Count <= count).ToList();
+                        foreach (var meeting in meetings)
+                        {
+                            meetingsList.Add(meeting);
+                        }
+                        break;
+                    case 1:
+                        meetings = MeetingsList.Meetings.Select(x => x)
+                            .Where(x => x.Attendees.Count >= count).ToList();
+                        foreach (var meeting in meetings)
+                        {
+                            meetingsList.Add(meeting);
+                        }
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Bad format.");
+            }
+            if (meetingsList.Count == 0 )
+            {
+                Console.WriteLine("No meetings with selected attendees count.");
+            }
+            return meetingsList;
+        }
     }
 }
-// !atendees.Contains(person) & currentPerson != person && 
-//     meeting.ResponsiblePerson != currentPerson

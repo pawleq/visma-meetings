@@ -6,7 +6,9 @@ namespace VismaMeeting.Model
 {
     public class Meeting
     {
-        public Meeting(Guid meetingId, string? name, Person? responsiblePerson, string? description, MeetingCategory meetingCategory, MeetingType meetingType, DateTime startDate, DateTime endDate, List<Person>? atendees)
+        public Meeting(Guid meetingId, string? name, Person? responsiblePerson, string? description,
+            MeetingCategory meetingCategory, MeetingType meetingType, DateTime startDate,
+            DateTime endDate, List<Person>? attendees)
         {
             MeetingId = meetingId;
             Name = name;
@@ -16,7 +18,7 @@ namespace VismaMeeting.Model
             MeetingType = meetingType;
             StartDate = startDate;
             EndDate = endDate;
-            Atendees = atendees;
+            Attendees = attendees;
         }
 
         public Guid MeetingId { get; set; }
@@ -27,6 +29,6 @@ namespace VismaMeeting.Model
         public MeetingType MeetingType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public List<Person>? Atendees { get; set; }
+        public List<Person>? Attendees { get; set; }
     }
 }

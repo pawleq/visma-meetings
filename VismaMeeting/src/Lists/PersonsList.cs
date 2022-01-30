@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VismaMeeting.Model;
 
 namespace VismaMeeting
 {
@@ -22,9 +23,11 @@ namespace VismaMeeting
         {
             foreach (var person in Persons)
             {
-                Console.WriteLine($"Person's information : id {person.PersonId}," +
-                                  $"name : {person.Name}, surname : {person.Surname}");
+                Console.WriteLine($"------------------------------\nPerson's information :\nid : {person.PersonId}\n" +
+                                  $"name : {person.Name}\n" +
+                                  $"surname : {person.Surname}\n");
             }
+            
         }
 
         public static Person? FindById(Guid id)
