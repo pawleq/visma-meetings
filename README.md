@@ -3,7 +3,7 @@
 
 json files are at : visma-meetings\VismaMeeting\bin\Debug\net6.0 folder
 
-Command to create a new meeting. All the meeting data should be stored in a JSON
+● Command to create a new meeting. All the meeting data should be stored in a JSON
 file. Application should retain data between restarts. Meeting model should contain
 the following properties:
 
