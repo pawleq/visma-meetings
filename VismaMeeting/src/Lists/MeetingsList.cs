@@ -62,14 +62,7 @@ namespace VismaMeeting
             string fileName = "Meetings.json";
             string jsonString = File.ReadAllText(fileName);
             var meetings = new List<Meeting>();
-            if (jsonString is not null)
-            {
-                meetings = JsonSerializer.Deserialize<List<Meeting>>(jsonString);
-            }
-            else
-            {
-                Console.WriteLine("Database is empty.");
-            }
+            meetings = JsonSerializer.Deserialize<List<Meeting>>(jsonString);
             return meetings;
         }
     }
