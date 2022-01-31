@@ -47,7 +47,6 @@ namespace VismaMeeting
                     {
                         MeetingService.CreateMeeting(currentPerson);
                     }
-
                     Options();
                     break;
                 case 4:
@@ -56,7 +55,6 @@ namespace VismaMeeting
                     {
                         MeetingService.RemoveMeeting(currentPerson);
                     }
-
                     Options();
                     break;
                 case 5:
