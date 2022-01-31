@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using VismaMeeting.Model;
+using VismaMeeting.Service;
 
 namespace VismaMeeting
 {
@@ -11,7 +14,7 @@ namespace VismaMeeting
 
         static PersonsList()
         {
-            Persons = new List<Person>();
+            Persons = ReadFromFile();
         }
 
         public static void Add(Person person)
@@ -27,13 +30,27 @@ namespace VismaMeeting
                                   $"name : {person.Name}\n" +
                                   $"surname : {person.Surname}\n");
             }
-            
         }
 
-        public static Person? FindById(Guid id)
+        public static Person FindById(Guid id)
         {
             var person = Persons.FirstOrDefault(x => x.PersonId == id);
             return person;
+        }
+        
+        public static void WriteToFile()
+        {
+            string fileName = "Persons.json";
+            string jsonString = JsonSerializer.Serialize(Persons);
+            File.WriteAllText(fileName, jsonString);
+        }
+
+        public static List<Person> ReadFromFile()
+        {
+            string fileName = "Persons.json";
+            string jsonString = File.ReadAllText(fileName);
+            var persons = JsonSerializer.Deserialize<List<Person>>(jsonString);
+            return persons;
         }
     }
 }

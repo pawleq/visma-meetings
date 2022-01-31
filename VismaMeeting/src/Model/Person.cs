@@ -5,7 +5,7 @@ namespace VismaMeeting
 {
     public class Person
     {
-        public Person(Guid personId, string? name, string? surname)
+        public Person(Guid personId, string name, string surname)
         {
             PersonId = personId;
             Name = name;
@@ -13,7 +13,7 @@ namespace VismaMeeting
         }
         
         public Guid PersonId { get; set; }
-        public string? Name { get; set; }
-        public string? Surname { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
     }
 }

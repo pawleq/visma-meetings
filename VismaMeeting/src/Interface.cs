@@ -18,16 +18,16 @@ namespace VismaMeeting
                               + "1 - Register a new person;\n"
                               + "2 - Display all data;\n"
                               + "3 - Create a meeting;\n"
-                              + "4 - Delete a meeting;\n"
-                              + "5 - Add a person to the meeting (only with responsible persons rights);\n"
-                              + "6 - Remove a person from the meeting (only with responsible persons rights);\n"
+                              + "4 - Delete a meeting (only with responsible persons rights);\n"
+                              + "5 - Add a person to the meeting;\n"
+                              + "6 - Remove a person from the meeting;\n"
                               + "7 - List meetings by responsible person;\n" 
                               + "8 - List all meetings by category;\n"
                               + "9 - List all meetings by type;\n"
                               + "10 - List all meetings by description filter;\n"
                               + "11 - List all meetings by attendees count;\n"
                               + "12 - List all meetings by date.\n"
-                              + "13 - Kill application.");
+                              + "13 - Kill application and save data.");
             
             var option = Convert.ToInt32(Console.ReadLine());
             switch (option)
@@ -60,21 +60,11 @@ namespace VismaMeeting
                     Options();
                     break;
                 case 5:
-                    currentPerson = Login();
-                    if (currentPerson is not null)
-                    {
-                        MeetingService.AddToMeeting(currentPerson);
-                    }
-
+                    MeetingService.AddToMeeting();
                     Options();
                     break;
                 case 6:
-                    currentPerson = Login();
-                    if (currentPerson is not null)
-                    {
-                        MeetingService.RemoveFromMetting(currentPerson);
-                    }
-
+                    MeetingService.RemoveFromMetting();
                     Options();
                     break;
                 case 7:
@@ -106,6 +96,8 @@ namespace VismaMeeting
                     meetings = MeetingService.DisplayMeetingsByDate();
                     MeetingsList.Display(meetings);
                     Options();
+                    break;
+                case 13:
                     break;
                 default:
                     throw new NotImplementedException();

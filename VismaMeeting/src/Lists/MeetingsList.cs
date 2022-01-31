@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using VismaMeeting.Model;
 
 namespace VismaMeeting
@@ -11,7 +15,7 @@ namespace VismaMeeting
 
         static MeetingsList()
         {
-            Meetings = new List<Meeting>();
+            Meetings = ReadFromFile();
         }
 
         public static void Add(Meeting meeting)
@@ -35,7 +39,7 @@ namespace VismaMeeting
             }
         }
         
-        public static Meeting? FindById(Guid id)
+        public static Meeting FindById(Guid id)
         {
             var meeting = Meetings.FirstOrDefault(x => x.MeetingId == id);
             return meeting;
@@ -46,10 +50,27 @@ namespace VismaMeeting
             Meetings.Remove(meeting);
         }
 
-        // public static Meeting FindByOwnerId(Guid id)
-        // {
-        //     var meeting = Meetings.FirstOrDefault(x => x.ResponsiblePerson.PersonId == id);
-        //     return meeting;
-        // }
+        public static void WriteToFile()
+        {
+            string fileName = "Meetings.json";
+            string jsonString = JsonSerializer.Serialize(Meetings);
+            File.WriteAllText(fileName, jsonString);
+        }
+
+        public static List<Meeting> ReadFromFile()
+        {
+            string fileName = "Meetings.json";
+            string jsonString = File.ReadAllText(fileName);
+            var meetings = new List<Meeting>();
+            if (jsonString is not null)
+            {
+                meetings = JsonSerializer.Deserialize<List<Meeting>>(jsonString);
+            }
+            else
+            {
+                Console.WriteLine("Database is empty.");
+            }
+            return meetings;
+        }
     }
 }

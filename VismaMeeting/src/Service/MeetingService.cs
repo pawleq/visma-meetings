@@ -30,10 +30,12 @@ namespace VismaMeeting.Service
         }
         public static void CreateMeeting(Person responsiblePerson)
         {
+            var attendees = new List<Person>();
+            attendees.Add(responsiblePerson);
             Console.WriteLine("Enter the name for the meeting : ");
             var name = Console.ReadLine();
             Console.WriteLine("Enter the description for the meeting : ");
-            string? description = Console.ReadLine();
+            string description = Console.ReadLine();
             Console.WriteLine("Enter the category for the meeting : ");
             var category = (MeetingCategory) Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter the type for the meeting : ");
@@ -44,7 +46,7 @@ namespace VismaMeeting.Service
             var endDate = Convert.ToDateTime(Console.ReadLine());
             Guid id = Guid.NewGuid();
             Meeting newMeeting = new(id, name, responsiblePerson, description, category, type, startDate, endDate,
-                new List<Person>());
+                attendees);
             MeetingsList.Add(newMeeting);
         }
 
@@ -72,10 +74,10 @@ namespace VismaMeeting.Service
             }
         }
 
-        public static void AddToMeeting(Person currentPerson)
+        public static void AddToMeeting()
         {
             var meeting = FindMeeting();
-            List<Person>? attendees = meeting.Attendees;
+            List<Person> attendees = meeting.Attendees;
             try
             {
                 if (meeting is null)
@@ -92,8 +94,7 @@ namespace VismaMeeting.Service
             var person = PersonsList.FindById(id);
             try
             {
-                if (attendees.Contains(person) || meeting.ResponsiblePerson == person ||
-                     currentPerson != meeting.ResponsiblePerson)
+                if (attendees.Contains(person))
                 {
                     Console.WriteLine("Error adding person to the meeting.");
                 }
@@ -116,10 +117,10 @@ namespace VismaMeeting.Service
             }
         }
         
-        public static void RemoveFromMetting(Person currentPerson)
+        public static void RemoveFromMetting()
         {
             var meeting = FindMeeting();
-            List<Person>? attendees = meeting.Attendees;
+            List<Person> attendees = meeting.Attendees;
             try
             {
                 if (meeting is null)
@@ -136,14 +137,13 @@ namespace VismaMeeting.Service
             var person = PersonsList.FindById(id);
             try
             {
-                if (!attendees.Contains(person) || meeting.ResponsiblePerson == person || 
-                    currentPerson != meeting.ResponsiblePerson) 
+                if (attendees.Contains(person) && meeting.ResponsiblePerson != person) 
                 {
-                    Console.WriteLine("Error removing person from the meeting.");
+                    attendees.Remove(person);
                 }
                 else
                 {
-                    attendees.Remove(person);
+                    Console.WriteLine("Error removing person from the meeting.");
                 }
             }
             catch (NullReferenceException)
